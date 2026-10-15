@@ -55,3 +55,5 @@ Found a vulnerability? See [SECURITY.md](SECURITY.md).
 ## License
 
 Code and text: [MIT](LICENSE). The WakeTrades name and logo are not covered by this license.
+
+WakeTrades is independent: it is not affiliated with, endorsed by or operated by Hyperliquid. "Hyperliquid" is used only to say which network these skills work with.
