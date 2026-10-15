@@ -44,6 +44,14 @@ npx skills add waketrades/hyperliquid-copy-trading-agent-skills
 - For agents: https://waketrades.com/llms.txt
 - Terms: https://waketrades.com/terms
 
+## Official sources only
+
+The only official WakeTrades skills are in this repository, linked from https://waketrades.com/docs/api/. WakeTrades never asks for a private key or a seed phrase, and only ever talks to `https://waketrades.com` and Hyperliquid's own API. A copy that sends you elsewhere is not ours.
+
+## Security
+
+Found a vulnerability? See [SECURITY.md](SECURITY.md).
+
 ## License
 
-[MIT](LICENSE)
+Code and text: [MIT](LICENSE). The WakeTrades name and logo are not covered by this license.
