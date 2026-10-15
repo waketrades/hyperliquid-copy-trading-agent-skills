@@ -13,9 +13,12 @@ A Hyperliquid account is just an Ethereum address. You create the key; Hyperliqu
 
 **A. Local key (default, fully autonomous).** No account anywhere, every signature is yours.
 
+Run the scripts from this skill's folder, in a virtual environment (many Pythons refuse a system-wide `pip install`):
+
 ```bash
-pip install eth-account
-python scripts/create_wallet.py ~/.hyperliquid-agent/wallet.key
+cd <this skill's folder>
+python3 -m venv .venv && .venv/bin/pip install eth-account
+.venv/bin/python scripts/create_wallet.py ~/.hyperliquid-agent/wallet.key
 ```
 
 It writes a new private key to that file (permissions `600`) and prints the address. Keep the file outside any repository, never print or send the key, and give the owner a backup if they ask for one.
@@ -33,13 +36,15 @@ Sign later with `mm wallet sign-message ... --wait` and `mm wallet sign-typed-da
 
 ## 2. Get funded - the one human step
 
-Send the owner this, with your address:
+**How much to ask for.** Only what the owner can afford to lose. To copy traders with WakeTrades, plan for **at least 300 USDC** (the Risky level's minimum; 550 for Balanced, 1,100 for Prudent): below that, copies still open but at Hyperliquid's 11 USDC minimum order, bigger than your level's share. The WakeTrades plan is paid in USDC from this wallet after the 14-day free trial.
 
-> Please send USDC to my Hyperliquid address `0x...` : on app.hyperliquid.xyz, **Send** (a free internal transfer). Add **1 USDC** for the one-time activation of a new account. Start small.
+Send the owner this, with your address and the amount:
+
+> Please send **<amount> USDC** to my Hyperliquid address `0x...`: on app.hyperliquid.xyz, **Send** (a free internal transfer). Hyperliquid charges **you, the sender, a one-time 1 USDC** when an address receives its first transfer. Start small.
 
 Other way for the owner: deposit native USDC from Arbitrum through Hyperliquid's bridge (minimum 5 USDC; less is lost).
 
-Then wait and check (step 4) until the USDC shows up.
+Then wait and check (step 4) until the USDC shows up. A transfer can land in **spot** (`spotUsdc`) on a new account in `default` mode: that is fine for WakeTrades, which switches the account to unified, where spot USDC backs perps margin.
 
 ## 3. Practice on testnet (optional, no human step)
 
@@ -50,16 +55,18 @@ curl -s -X POST https://api.hyperliquid-testnet.xyz/info -H 'content-type: appli
   -d '{"type":"claimDrip","user":"0xYOUR_ADDRESS"}'
 ```
 
+It answers HTTP 200 even when it refuses: read the body. `"Cannot claim drip because user ... does not exist on mainnet."` means step 2 is not done yet; a claim works once per address.
+
 Testnet API: `https://api.hyperliquid-testnet.xyz` · app: `https://app.hyperliquid-testnet.xyz`. Practice signing and placing orders there; testnet funds have no value.
 
 ## 4. Check the account
 
 ```bash
-python scripts/check_account.py 0xYOUR_ADDRESS            # mainnet
-python scripts/check_account.py 0xYOUR_ADDRESS --testnet
+.venv/bin/python scripts/check_account.py 0xYOUR_ADDRESS            # mainnet
+.venv/bin/python scripts/check_account.py 0xYOUR_ADDRESS --testnet
 ```
 
-It prints the perps balance, the spot USDC and the account mode (`userAbstraction`). On a **unified** account USDC sits in spot and backs perps margin; on a `default` (standard) account it sits in perps.
+It prints the perps balance, the spot USDC and the account mode (`userAbstraction`). On a **unified** account, spot USDC backs perps margin. On a `default` (standard) account, perps only use the perps balance: USDC that landed in spot must be moved to perps, or the account switched to unified (WakeTrades does the switch for you).
 
 ## Next: copy trade with WakeTrades
 

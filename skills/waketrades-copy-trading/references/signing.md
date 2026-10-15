@@ -4,6 +4,7 @@ You sign three things: the sign-in message (EIP-191), Hyperliquid's `approveAgen
 
 - No wallet library? A dependency-light example with `@noble/curves` and `@noble/hashes` (tested against the server): `https://waketrades.com/docs/api/authentication`.
 - MetaMask Agent Wallet: `mm wallet sign-message --message "<message>" --chain-id 42161 --wait` and `mm wallet sign-typed-data --chain-id 42161 --payload '<JSON>' --wait`. Each signature waits for the owner's approval by e-mail.
+- `CERTIFICATE_VERIFY_FAILED` from Python's `urllib`? Your Python has no CA bundle: `pip install certifi` and pass `ssl.create_default_context(cafile=certifi.where())`, or point `SSL_CERT_FILE` to `/etc/ssl/cert.pem`.
 - Split EIP-712 signatures into `{r, s, v}` with **64 hex digits** for `r` and `s` (keep leading zeros) and `v` = 27 or 28.
 
 ## Python (eth-account)
