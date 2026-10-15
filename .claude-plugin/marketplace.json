@@ -1,0 +1,12 @@
+{
+  "name": "waketrades",
+  "description": "WakeTrades agent skills for Hyperliquid: an agent wallet, then copy trading end to end.",
+  "owner": { "name": "WakeTrades" },
+  "plugins": [
+    {
+      "name": "waketrades-hyperliquid",
+      "source": "./",
+      "description": "Two skills (hyperliquid-agent-wallet, waketrades-copy-trading) and the WakeTrades MCP server."
+    }
+  ]
+}
