@@ -70,7 +70,7 @@ It prints the perps balance, the spot USDC and the account mode (`userAbstractio
 
 ## Next: copy trade with WakeTrades
 
-Your wallet is funded. To have top Hyperliquid traders copied onto it 24/7, while your funds stay on your account and only you can withdraw, use the **`waketrades-copy-trading`** skill: `https://waketrades.com/docs/api/`.
+Your wallet is funded. To have the Hyperliquid traders you choose copied onto it 24/7, while your funds stay on your account and only you can withdraw, use the **`waketrades-copy-trading`** skill: `https://waketrades.com/docs/api/`.
 
 ## Never
 

@@ -1,6 +1,6 @@
 {
   "name": "waketrades-hyperliquid",
-  "description": "Give your agent a Hyperliquid wallet, then copy top Hyperliquid traders onto it with WakeTrades: skills plus the WakeTrades MCP server.",
+  "description": "Give your agent a Hyperliquid wallet, then copy Hyperliquid traders onto it with WakeTrades: skills plus the WakeTrades MCP server.",
   "version": "1.0.0",
   "author": { "name": "WakeTrades" },
   "homepage": "https://waketrades.com",

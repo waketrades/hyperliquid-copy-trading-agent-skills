@@ -1,8 +1,10 @@
 # Hyperliquid copy trading - agent skills by WakeTrades
 
-Two [Agent Skills](https://agentskills.io) and an MCP server that let an AI agent **open its own Hyperliquid wallet** and **copy top Hyperliquid traders onto it, end to end**, with [WakeTrades](https://waketrades.com).
+Two [Agent Skills](https://agentskills.io) and an MCP server that let an AI agent **open its own Hyperliquid wallet** and **copy Hyperliquid traders onto it, end to end** (traders you choose, or from our monthly report), with [WakeTrades](https://waketrades.com).
 
 > **Risk first.** Copying leveraged trades can lose the whole balance. Start with a small amount, use the exposure level WakeTrades recommends for your balance, and only act for a wallet owner who gave you that mandate.
+>
+> **Not for Restricted Persons** ([Terms](https://waketrades.com/terms), section 3): people in the United States, Canada, the United Kingdom or other restricted places, and anyone acting for them.
 
 | Skill | What it does | Human steps |
 |---|---|---|
