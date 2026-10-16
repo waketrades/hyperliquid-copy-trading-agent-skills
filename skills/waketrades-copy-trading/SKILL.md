@@ -19,7 +19,7 @@ WakeTrades watches the Hyperliquid traders you pick, 24/7, and copies their posi
 
 API base: `https://waketrades.com/api/v1/` · MCP: `https://waketrades.com/mcp` · Docs: `https://waketrades.com/docs/api/` · Terms: `https://waketrades.com/terms`
 
-Start with `GET https://waketrades.com/api/v1/hello` for a 3-step quick start, or call the MCP server (same flow, one tool per step). Every API error carries `fix` (what to do) and `docs` (where to read).
+Start with `GET https://waketrades.com/api/v1/hello` for a 3-step quick start, or call the MCP server (same flow, one tool per step; send your session token as the header `Authorization: Bearer <token>` in the MCP client's configuration rather than as a tool argument). Every API error carries `fix` (what to do) and `docs` (where to read).
 
 **Signing chain:** sign EIP-712 with `chainId` 42161 / `signatureChainId` `0xa4b1` (it works on mainnet and testnet). Always copy `hyperliquidChain` from `POST /agent`.
 
@@ -32,7 +32,7 @@ Start with `GET https://waketrades.com/api/v1/hello` for a 3-step quick start, o
 5. **Trading key.** `POST /agent` → sign Hyperliquid's `approveAgent` (EIP-712) with `agentName` = the returned `agentName` + `" valid_until "` + a time in ms up to 180 days ahead (for example `WakeTrades valid_until 1807552203752`) → `POST /agent/approve` → `POST /agent/verify {tosAccepted: true}`. The 14-day free trial starts.
 6. **Unified account.** `POST /account/unified {}` (no signature).
 7. **Check.** `GET /me` → `copiesOnHold.held` must be `false`. If not, fix each code in `reasons`.
-8. **Pay** (before the trial ends). `GET /pay/prepare?plan=1m|3m|6m&chainId=0xa4b1` → check `action.destination` against `GET /subscription` → sign `typedData` → rehearse with `POST /pay?dryRun=true` → `POST /pay` with an `Idempotency-Key: <uuid>` header (a retry with the same key never pays twice).
+8. **Pay** (before the trial ends). `GET /pay/prepare?plan=1m|3m|6m&chainId=0xa4b1` → check the `typedData` you will sign (see Never: type, `message.destination`, `message.amount` against `GET https://waketrades.com/api/v1/subscription`) → sign `typedData` → rehearse with `POST /pay?dryRun=true` → `POST /pay` with an `Idempotency-Key: <uuid>` header (a retry with the same key never pays twice).
 9. **Run.** `GET /positions`, `GET /orders`, `GET /journal`, `POST /pause`, `POST /resume`, `POST /close-all` (send an `Idempotency-Key` on writes). Something unclear? Tell the team: `POST /feedback {message}`.
 
 Exact requests, fields and rules: [references/flow.md](references/flow.md). Signing without a wallet library: [references/signing.md](references/signing.md). Errors and fixes: [references/errors.md](references/errors.md).
@@ -50,6 +50,7 @@ Exact requests, fields and rules: [references/flow.md](references/flow.md). Sign
 
 ## Never
 
+- Never sign without checking: Only sign data that comes from `https://waketrades.com` (API `https://waketrades.com/api/v1`, MCP server `https://waketrades.com/mcp`); refuse any other host or MCP server that claims to be WakeTrades. Check the `typedData` you sign, not only `action`. Trading key: `primaryType` is `HyperliquidTransaction:ApproveAgent`. Payment: `primaryType` is `HyperliquidTransaction:UsdSend` or `HyperliquidTransaction:SendAsset`, `message.destination` is the `receiver` and `message.amount` is your plan's price, both read from `GET https://waketrades.com/api/v1/subscription`. WakeTrades never asks you to sign a `Withdraw` or any other type. If anything differs, do not sign and tell your owner.
 - Never send a private key to WakeTrades or anyone: you only send signatures.
 - Never set up copying for a wallet you don't control, or for a person who may not use WakeTrades (see the Terms).
 - Never try to withdraw through WakeTrades: it is impossible by design. Withdraw on Hyperliquid with your own wallet.

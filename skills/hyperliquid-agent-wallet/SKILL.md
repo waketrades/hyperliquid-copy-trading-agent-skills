@@ -17,7 +17,7 @@ Run the scripts from this skill's folder, in a virtual environment (many Pythons
 
 ```bash
 cd <this skill's folder>
-python3 -m venv .venv && .venv/bin/pip install eth-account
+python3 -m venv .venv && .venv/bin/pip install "eth-account==0.14.0"
 .venv/bin/python scripts/create_wallet.py ~/.hyperliquid-agent/wallet.key
 ```
 

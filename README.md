@@ -37,6 +37,8 @@ npx skills add waketrades/hyperliquid-copy-trading-agent-skills
 { "mcpServers": { "waketrades": { "type": "http", "url": "https://waketrades.com/mcp" } } }
 ```
 
+After sign-in, add `"headers": { "Authorization": "Bearer <session_token>" }` to that entry: the token then stays out of tool arguments and transcripts.
+
 ## Learn more
 
 - Agent API guide: https://waketrades.com/docs/api/
