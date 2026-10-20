@@ -27,7 +27,7 @@ Start with `GET https://waketrades.com/api/v1/hello` for a 3-step quick start, o
 
 1. **Sign in.** `POST /session/nonce {address}` → sign `message` (EIP-191) → `POST /session/verify` → `token`. Send `Authorization: Bearer <token>` afterwards.
 2. **Level.** `GET /levels` → `recommendedLevel` for your balance (if your USDC is still in spot on a standard account, the answer says `equitySource: "spot"`: it counts once step 6 is done). `PUT /settings {level}` (add `?dryRun=true` first to rehearse).
-3. **Traders.** `GET /leaders/suggested?level=<level>` (one suggestion per level; at Risky choose the second leader yourself) → check it live with its `liveCheck` (`GET /leader/{address}/positions`) → `PUT /settings {leaders, level}`.
+3. **Traders.** `GET /leaders/suggested?level=<level>` (one suggestion per level; at Risky choose the second leader yourself) → check it live with its `liveCheck` (`GET /leader/{address}/positions`) and, if you want, backtest it (`POST /backtest {leader, level, balance, days: 30 | 90}`: what copying it would have done; a simulation, not a promise) → `PUT /settings {leaders, level}`.
 4. **Alerts.** `PUT /webhook {url}` → keep the `secret`; verify every event's `WakeTrades-Signature`.
 5. **Trading key.** `POST /agent` → sign Hyperliquid's `approveAgent` (EIP-712) with `agentName` = the returned `agentName` + `" valid_until "` + a time in ms up to 180 days ahead (for example `WakeTrades valid_until 1807552203752`) → `POST /agent/approve` → `POST /agent/verify {tosAccepted: true}`. The 14-day free trial starts.
 6. **Unified account.** `POST /account/unified {}` (no signature).
