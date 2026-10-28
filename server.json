@@ -1,0 +1,27 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.waketrades/mcp",
+  "title": "WakeTrades",
+  "description": "Copy Hyperliquid traders onto your own account, non-custodial. Not for Restricted Persons (Terms).",
+  "websiteUrl": "https://waketrades.com/docs/api/mcp",
+  "repository": {
+    "url": "https://github.com/waketrades/hyperliquid-copy-trading-agent-skills",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "icons": [
+    {
+      "src": "https://waketrades.com/icon-512.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "512x512"
+      ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://waketrades.com/mcp"
+    }
+  ]
+}
