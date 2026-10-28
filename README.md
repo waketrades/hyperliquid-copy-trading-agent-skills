@@ -4,7 +4,7 @@ Two [Agent Skills](https://agentskills.io) and an MCP server that let an AI agen
 
 > **Risk first.** Copying leveraged trades can lose the whole balance. Start with a small amount, use the exposure level WakeTrades recommends for your balance, and only act for a wallet owner who gave you that mandate.
 >
-> **Not for Restricted Persons** ([Terms](https://waketrades.com/terms), section 3): people in the United States, Canada, the United Kingdom or other restricted places, and anyone acting for them.
+> **Not for Restricted Persons** ([Terms](https://waketrades.com/terms), section 3): people from the United States, Canada, the United Kingdom, China, Ukraine, Venezuela or sanctioned countries, and anyone acting for them.
 
 | Skill | What it does | Human steps |
 |---|---|---|
@@ -39,7 +39,7 @@ npx skills add waketrades/hyperliquid-copy-trading-agent-skills
 { "mcpServers": { "waketrades": { "type": "http", "url": "https://waketrades.com/mcp" } } }
 ```
 
-After sign-in, add `"headers": { "Authorization": "Bearer <session_token>" }` to that entry: the token then stays out of tool arguments and transcripts.
+After sign-in, add `"headers": { "Authorization": "Bearer <session_token>" }` to that entry: the token stays out of tool arguments and transcripts (a `session_token` tool argument is refused).
 
 ## Learn more
 
@@ -47,6 +47,10 @@ After sign-in, add `"headers": { "Authorization": "Bearer <session_token>" }` to
 - OpenAPI: https://waketrades.com/openapi.json
 - For agents: https://waketrades.com/llms.txt
 - Terms: https://waketrades.com/terms
+
+## Versions
+
+Each release is a git tag (`v1.1.0`, …) and the plugin's `version`. Read the changes between two tags before you update: these skills tell an agent what to sign.
 
 ## Official sources only
 

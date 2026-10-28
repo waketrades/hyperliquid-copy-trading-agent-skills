@@ -16,18 +16,19 @@ WakeTrades watches the Hyperliquid traders you pick, 24/7, and copies their posi
 - A Hyperliquid wallet you control, **with USDC on it**. No wallet yet? Use the `hyperliquid-agent-wallet` skill first.
 - A way to sign: EIP-191 messages and EIP-712 typed data (a local key, or MetaMask Agent Wallet with `--wait`).
 - An HTTPS endpoint that answers `2xx` to a `POST`, for alerts (webhook).
+- A wallet owner who may use WakeTrades: not a person from the United States, Canada, the United Kingdom, China, Ukraine, Venezuela or sanctioned countries ([Terms](https://waketrades.com/terms), section 3). There is no location filter today, but requests may get `451 geo_blocked` at any time, based on your request's IP address.
 
 Helping a person who keeps their own wallet? You need none of this: see [Your human owns the wallet](#your-human-owns-the-wallet).
 
 API base: `https://waketrades.com/api/v1/` · MCP: `https://waketrades.com/mcp` · Docs: `https://waketrades.com/docs/api/` · Terms: `https://waketrades.com/terms`
 
-Start with `GET https://waketrades.com/api/v1/hello` for a 3-step quick start, or call the MCP server (same flow, one tool per step; send your session token as the header `Authorization: Bearer <token>` in the MCP client's configuration rather than as a tool argument). Every API error carries `fix` (what to do) and `docs` (where to read).
+Start with `GET https://waketrades.com/api/v1/hello` for a 3-step quick start, or call the MCP server (same flow, one tool per step; send your session token as the header `Authorization: Bearer <token>` in the MCP client's configuration: a `session_token` tool argument is refused with `token_in_arguments`). Every API error carries `fix` (what to do) and `docs` (where to read).
 
 **Signing chain:** sign EIP-712 with `chainId` 42161 / `signatureChainId` `0xa4b1` (it works on mainnet and testnet). Always copy `hyperliquidChain` from `POST /agent`.
 
 ## The flow (about 5 minutes)
 
-1. **Sign in.** `POST /session/nonce {address}` → sign `message` (EIP-191) → `POST /session/verify` → `token`. Send `Authorization: Bearer <token>` afterwards.
+1. **Sign in.** `POST /session/nonce {address}` → sign `message` (EIP-191) → `POST /session/verify` → `token`. Send `Authorization: Bearer <token>` afterwards. A signature signs in once: to sign in again, ask for a new nonce.
 2. **Level.** `GET /levels` → `recommendedLevel` for your balance (if your USDC is still in spot on a standard account, the answer says `equitySource: "spot"`: it counts once step 6 is done). `PUT /settings {level}` (add `?dryRun=true` first to rehearse).
 3. **Traders.** `GET /leaders/suggested?level=<level>` (one suggestion per level; at Risky choose the second leader yourself) → check it live with its `liveCheck` (`GET /leader/{address}/positions`) and, if you want, backtest it (`POST /backtest {leader, level, balance, days: 30 | 90}`: what copying it would have done; a simulation, not a promise) → `PUT /settings {leaders, level}`.
 4. **Alerts.** `PUT /webhook {url}` → keep the `secret`; verify every event's `WakeTrades-Signature`.
@@ -44,10 +45,10 @@ Exact requests, fields and rules: [references/flow.md](references/flow.md). Sign
 Helping a person who keeps their USDC in their own wallet (MetaMask)? You don't need a wallet and you don't sign in:
 
 1. The person sets up copying on waketrades.com (connect MetaMask, level, leader, trading key) — guide them if needed.
-2. They open **Profile › AI Agent › Connect an AI agent**, sign one free message on waketrades.com, and give you the code.
+2. They open **Profile › AI Agent › Connect an AI agent**, choose **View only** or **Manage copying**, sign one free message on waketrades.com, and give you the code.
 3. Use the code as your session token: `Authorization: Bearer <code>` (API or MCP headers). Skip sign-in, the trading key and payment: those stay with the person on the website (you can prepare a payment with `GET /pay/prepare` and check it with `POST /pay?dryRun=true`).
 
-With the code you can read everything, change leaders, level and Advanced settings, pause, resume and close. The code lasts until their plan ends (6 months at most); a new code or **Disconnect agent** signs you out (`401`), and `DELETE /agent-link` signs you out yourself. Ask the person before changing the level, Advanced settings or leaders, or closing everything: show the `dryRun` result first. Guide: https://waketrades.com/docs/account/connect-ai-agent
+With a Manage copying code you can read everything, change leaders, level and Advanced settings, pause, resume and close; a View only code only reads (anything else: `403 view_only`). The code lasts until their plan ends, 180 days at most, and ends for good if their plan stops (`401 agent_code_expired`: ask for a new code); a new code or **Disconnect agent** signs you out (`401`), and `DELETE /agent-link` signs you out yourself. Ask the person before changing the level, Advanced settings or leaders, or closing everything: show the `dryRun` result first. Guide: https://waketrades.com/docs/account/connect-ai-agent
 
 ## Best practices
 
