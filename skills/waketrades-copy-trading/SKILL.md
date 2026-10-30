@@ -46,7 +46,7 @@ Helping a person who keeps their USDC in their own wallet (MetaMask)? You don't 
 
 1. The person sets up copying on waketrades.com (connect MetaMask, level, leader, trading key) — guide them if needed.
 2. They open **Profile › AI Agent › Connect an AI agent**, choose **View only** or **Manage copying**, sign one free message on waketrades.com, and give you the code.
-3. Use the code as your session token: `Authorization: Bearer <code>` (API or MCP headers). Skip sign-in, the trading key and payment: those stay with the person on the website (you can prepare a payment with `GET /pay/prepare` and check it with `POST /pay?dryRun=true`).
+3. Use the code as your session token: `Authorization: Bearer <code>` (API or MCP headers). Skip sign-in, the trading key, payment, Telegram and the webhook: those stay with the person on the website (you can prepare a payment with `GET /pay/prepare` and check it with `POST /pay?dryRun=true`).
 
 With a Manage copying code you can read everything, change leaders, level and Advanced settings, pause, resume and close; a View only code only reads (anything else: `403 view_only`). The code lasts until their plan ends, 180 days at most, and ends for good if their plan stops (`401 agent_code_expired`: ask for a new code); a new code or **Disconnect agent** signs you out (`401`), and `DELETE /agent-link` signs you out yourself. Ask the person before changing the level, Advanced settings or leaders, or closing everything: show the `dryRun` result first. Guide: https://waketrades.com/docs/account/connect-ai-agent
 
