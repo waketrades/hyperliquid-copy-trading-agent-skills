@@ -36,13 +36,13 @@ Sign later with `mm wallet sign-message ... --wait` and `mm wallet sign-typed-da
 
 ## 2. Get funded - the one human step
 
-**How much to ask for.** Only what the owner can afford to lose. To copy traders with WakeTrades, plan for **at least 300 USDC** (the Risky level's minimum; 550 for Balanced, 1,100 for Prudent): below that, copies still open but at Hyperliquid's 11 USDC minimum order, bigger than your level's share. The WakeTrades plan is paid in USDC from this wallet after the 14-day free trial.
+**How much to ask for.** Only what the owner can afford to lose. To copy traders with WakeTrades, plan for a balance of **at least 300 USDC** after fees (the Risky level's minimum; 550 for Balanced, 1,100 for Prudent): below that, copies still open but at Hyperliquid's 11 USDC minimum order, bigger than your level's share. The WakeTrades plan is paid in USDC from this wallet after the 14-day free trial.
 
 Send the owner this, with your address and the amount:
 
 > Please send **<amount> USDC** to my Hyperliquid address `0x...`: on app.hyperliquid.xyz, **Send** (a free internal transfer). Hyperliquid charges **you, the sender, a one-time 1 USDC** when an address receives its first transfer. Start small.
 
-Other way for the owner: deposit native USDC from Arbitrum through Hyperliquid's bridge (minimum 5 USDC; less is lost).
+The owner has no USDC on Hyperliquid yet? They fund their own account first: **USDC on Arbitrum One (native USDC, not USDC.e)** and a little ETH for gas, then **Deposit** on app.hyperliquid.xyz with MetaMask (at least 5 USDC, less is lost; Hyperliquid deducts a small fee, 0.2 USDC today). Then they **Send** to you as above. Give them the step-by-step guide: `https://waketrades.com/docs/getting-started/fund-hyperliquid-account`.
 
 Then wait and check (step 4) until the USDC shows up. A transfer can land in **spot** (`spotUsdc`) on a new account in `default` mode: that is fine for WakeTrades, which switches the account to unified, where spot USDC backs perps margin.
 
